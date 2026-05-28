@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  web:
+    image: devops-web:latest
+    ports:
+      - "8080:80"
+    networks:
+      - devops-network
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: devops2024
+      MYSQL_DATABASE: devopsdb
+      MYSQL_USER: devopsuser
+      MYSQL_PASSWORD: devops2024
+    networks:
+      - devops-network
+    deploy:
+      replicas: 1
+
+networks:
+  devops-network:
+    driver: overlay
